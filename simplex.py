@@ -2,20 +2,26 @@
 """
 Created on Fri May 13 14:17:26 2016
 
-@author: maxflugelman
+@author: maxflugelman, lucasheinrich, fernandokabas
 """
 
 import numpy as np
-import sympy.functions.special.delta_functions as delta
 
 
 ############################################################################
 
 def pfourelement(t, r, l, c, k, v):
 
-    # devuelve presion arterial Pout de windkessel de 4 elementos, k es rl
-    u = ((l*k)+(r*l))/(k*l*c*r*2)
-    return (k)*(v)(np.exp(-u*t))*(np.cos((np.sqrt(u))*t)+np.sin((np.sqrt(u))*t)+(delta.DiracDelta/k))
+    # devuelve presion arterial (Pout) de windkessel de 4 elementos, k es rl
+
+    u = (l*k+r*l)/(k*l*c*r*2)
+    if t==0.0:
+        # la funcion original incluye un delta que lo solucione con este if por que con metodo daba error
+    
+        return k*v*(1+1/k)
+    else:
+        return k*v*(np.exp(-u*t))*(np.cos((np.sqrt(u))*t)+np.sin((np.sqrt(u))*t))
+
 
 ############################################################################
 def sort(m):
@@ -75,8 +81,6 @@ def getS(s):
         s[:,i] = 0.5*(s[:,0]+s[:,i])
     return s;
     
-    
-
 
 ############################################################################
 def Nelder (x0, iter):
