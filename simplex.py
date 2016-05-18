@@ -6,7 +6,16 @@ Created on Fri May 13 14:17:26 2016
 """
 
 import numpy as np
+import sympy.functions.special.delta_functions as delta
 
+
+############################################################################
+
+def pfourelement(t, r, l, c, k, v):
+
+    # devuelve presion arterial Pout de windkessel de 4 elementos, k es rl
+    u = ((l*k)+(r*l))/(k*l*c*r*2)
+    return (k)*(v)(np.exp(-u*t))*(np.cos((np.sqrt(u))*t)+np.sin((np.sqrt(u))*t)+(delta.DiracDelta/k))
 
 ############################################################################
 def sort(m):
